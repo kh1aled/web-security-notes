@@ -1,0 +1,12 @@
+Lap #1 => unprotected admin function
+
+vulnerability type => Access control vulnerability
+
+target goal => find the admin panel and delete the user carlos
+
+Analysis =>
+-Go to the lab and view robots.txt by appending /robots.txt to the lab URL. Notice that the Disallow line discloses the path to the admin panel.
+-In the URL bar, replace /robots.txt with /administrator-panel to load the admin panel.
+-Delete carlos.
+
+end goal => i can delete user carlos
